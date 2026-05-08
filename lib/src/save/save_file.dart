@@ -703,7 +703,21 @@ class Save {
 
     if (sheet.headerFooter == null) return;
 
-    sheetXmlElement.children.add(sheet.headerFooter!.toXmlElement());
+    final headerFooterElement = sheet.headerFooter!.toXmlElement();
+    final drawingElement = sheetXmlElement.children
+        .whereType<XmlElement>()
+        .firstWhereOrNull((e) => e.name.local == 'drawing');
+
+    if (drawingElement != null) {
+      final drawingIndex = sheetXmlElement.children.indexOf(drawingElement);
+      if (drawingIndex == -1) {
+        sheetXmlElement.children.add(headerFooterElement);
+      } else {
+        sheetXmlElement.children.insert(drawingIndex, headerFooterElement);
+      }
+    } else {
+      sheetXmlElement.children.add(headerFooterElement);
+    }
   }
 
   /// Writing the merged cells information into the excel properties files.
