@@ -106,10 +106,6 @@ extension BoolParsing on String {
   }
 
   String simplifyText() {
-    String value = this.replaceAll('&amp', '&');
-    value = value.replaceAll('amp', '&');
-    value = value.replaceAll('&', '&amp;');
-    value = value.replaceAll('"', '&quot;');
-    return value;
+    return this;
   }
 }
